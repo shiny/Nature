@@ -154,6 +154,15 @@ php 是最好的模板！ 我们选择 php 原生语法做模板。controller �
 		</body>	
 	</html>
 
+小技巧：像上面的例子，你还可以写成：
+
+`index.php`
+
+    <?php
+    	indexController extends controller { }
+    	// 如果指定位置的模板文件已经存在，在未编写 get 方法的时候，controller 会自动调用 $this->display();
+
+
 #### 加载数据库和模板
 
 -  约定：默认启用模板，因为 php 是一种模板语言。
