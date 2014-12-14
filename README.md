@@ -1,7 +1,7 @@
 #php nature
 for php5.4 and above.
 
-这是一次 PHP 语法糖探索的成果。
+这是一次 PHP 语法糖的探索。
 原则
 
 - 浑然天成
