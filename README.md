@@ -101,14 +101,14 @@ return 404部分用于安全设置的加强。
 #### 初始化 rest 风格的 controller
 文件内放置一个 class ，并且 extends 自 controller，框架即可自动初始化，并以 rest 风格调用。
 <code>约定: 为避免混乱，一个文件内放一个 controller </code>
-	
-	/index.php
+
+    /index.php
     <?php
-    	indexController extends controller {
-    		function get(){
-    			 echo 'Can you see me ?';
-    		}
-    	}
+        indexController extends controller {
+            function get(){
+                echo 'Can you see me ?';
+            }
+        }
 
 ### 另一种 rest 风格的调用方式
 除了支持初始化 controller 对象，我们还支持使用 function 初始化。
