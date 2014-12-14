@@ -8,7 +8,6 @@ for php5.4 and above.
 - 可维护第一，兼顾性能
 
 
-
 ### 一、文件存放的位置
 #### app 目录
 app 目录用于存放应用相关文件。
@@ -44,6 +43,7 @@ library 目录存放 nature php 库相关文件。可以直接拷贝，跳过以
 	
 #### nginx 配置
 app/nginx.conf 的内容如下
+`app/nginx.conf`
 
 	location / {
 	    index index.php;
@@ -64,6 +64,8 @@ return 404部分用于安全设置的加强。
 	- .htaccess
 	
 #### php-fpm.conf 示例：
+
+`app/php-fpm.conf`
 
     php_value[date.timezone] = "Asia/Shanghai"
     php_flag[display_errors] = On
@@ -92,7 +94,9 @@ return 404部分用于安全设置的加强。
 当然你想用单入口模式我们也不会拦着你，自个儿写个，也不是很麻烦。
 
 #### 不需要 include，自动使用 nature 库
-	
+
+`index.php`
+
 	<?php
 	//想咋用就咋用
 
@@ -102,7 +106,9 @@ return 404部分用于安全设置的加强。
 文件内放置一个 class ，并且 extends 自 controller，框架即可自动初始化，并以 rest 风格调用。
 <code>约定: 为避免混乱，一个文件内放一个 controller </code>
 
-    /index.php
+
+`index.php`
+
     <?php
         indexController extends controller {
             function get(){
@@ -113,7 +119,8 @@ return 404部分用于安全设置的加强。
 ### 另一种 rest 风格的调用方式
 除了支持初始化 controller 对象，我们还支持使用 function 初始化。
 	
-	/index.php
+`index.php`
+
 	<?php
 		function get() {
     		echo 'Can you see me ?';
@@ -128,7 +135,8 @@ php 是最好的模板！ 我们选择 php 原生语法做模板。controller �
 
 如果没有指定 display 的模板文件，默认使用当前文件名，并把 .php 替换成 .html
 
-	/index.php
+`index.php`
+
     <?php
     	indexController extends controller {
     		function get(){
@@ -137,8 +145,8 @@ php 是最好的模板！ 我们选择 php 原生语法做模板。controller �
     		}
     	}
     	
+`app/template/index.html`
 
-	/app/template/index.html
 	<!DOCTYPE html>
 	<html>
 		<body>
@@ -151,9 +159,8 @@ php 是最好的模板！ 我们选择 php 原生语法做模板。controller �
 -  约定：默认启用模板，因为 php 是一种模板语言。
 -  需要数据库？为 controller 设置一个 $db 属性，nature 会自动为你初始化数据库。
 
-示例：
+示例：`index.php`
 
-    /index.php
     <?php
     	indexController extends controller {
     		public $db;
@@ -174,6 +181,8 @@ php 是最好的模板！ 我们选择 php 原生语法做模板。controller �
 如果传入字符串，将会以字符串为类名返回一个实例；如果传入的是数组，将返回一个数组，每一项是一个示例。
 
 这样我们可以实现这样的调用方式：
+
+`test.php`
 
     <?php
     list($db, $tpl) = singleton(['db', 'tpl']);
