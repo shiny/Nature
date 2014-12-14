@@ -39,6 +39,7 @@ library 目录存放 nature php 库相关文件。可以直接拷贝，跳过以
 <code>约定：将系统相关的配置放置于 site-enabled，将应用相关的配置放到 app/nginx.conf 中 </code>
 
 -  将 php-fpm.conf 也放置于 app 目录，并在 /etc/php5/fpm/pool.d/ 的站点 pool.conf 中 include。 <code>约定：一个站点一个 pool</code>
+-  将环境变量放于 pool 中由系统管理员设置。与系统无关的环境变量则放置于 app/php-fpm.conf 中。
   
 	
 #### nginx 配置
