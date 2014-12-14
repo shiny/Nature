@@ -61,7 +61,7 @@ return 404部分用于安全设置的加强。
 
 -  php 的配置
 	- php-fpm.conf	
-	- .htaccess
+	- .htaccess （暂缺）
 	
 #### php-fpm.conf 示例：
 
