@@ -24,8 +24,8 @@ library 目录存放 nature php 库相关文件。可以直接拷贝，跳过以
 文件名为： classname.class.php，其中 classname 必须小写。
 <code>约定：我们不喜欢很长很长的 className，保持小写可以强迫使用者起一个短小的类名。</code>
 
--  loader.php ：auto_prepend_file，用于自动加载函数
--  execute.php ：auto_append_file，用于按约定执行用户编写的程序。
+-  loader.php ：`auto_prepend_file`，用于自动加载函数
+-  execute.php ：`auto_append_file`，用于按约定执行用户编写的程序。
 
 
 ### 二、约定好的配置
@@ -73,9 +73,9 @@ return 404部分用于安全设置的加强。
 	php_admin_value[auto_append_file] = "execute.php"
 
 -  设置时区，用于避免 /etc/php.ini 遗忘默认的时区设置。
--  设置 short_open_tag 可以让模板语法更优雅
--  include_path 设置 app 和 library 目录，出于便捷考虑。
--  auto_prepend_file/auto_append_file 隐藏了每个入口点所需的 include。
+-  设置 `short_open_tag` 可以让模板语法更优雅
+-  `include_path` 设置 app 和 library 目录，出于便捷考虑。
+-  `auto_prepend_file/auto_append_file` 隐藏了每个入口点所需的 include。
 
 *_important:_*
 *如果你使用了 apache，上面也可以用一个 .htaccess 实现*
