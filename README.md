@@ -151,8 +151,9 @@ php 是最好的模板！ 我们选择 php 原生语法做模板。controller �
 -  约定：默认启用模板，因为 php 是一种模板语言。
 -  需要数据库？为 controller 设置一个 $db 属性，nature 会自动为你初始化数据库。
 
+示例：
 
-	/index.php
+    /index.php
     <?php
     	indexController extends controller {
     		public $db;
