@@ -1,0 +1,18 @@
+RewriteEngine On 
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+)$ /$1.php [L,QSA]
+
+
+SetEnv DOMAIN "nature.coding.io"
+
+php_flag display_startup_errors on
+php_flag display_errors on
+php_flag html_errors on
+php_value error_reporting 32767
+php_value date.timezone Asia/Shanghai
+php_value include_path "../App"
+php_value auto_prepend_file "init.php"
+php_value auto_append_file "run.php"
