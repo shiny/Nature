@@ -15,36 +15,44 @@
             header('Location: '.$url);
             exit;
         }
-        
-        function config($name, $value=null){
-            if(strpos($name, '.')===false) {
-                $type = $name; 
-                $name = false;
-            } else {
-                list($type, $name) = explode('.', $name);
+
+        /**
+         * 读取或者设置配置项
+         * @param $key
+         * @param null $value
+         * @return array|null
+         */
+        function configure($key,  $value=null){
+            $key = trim($key, "\\");
+            $key = str_replace("\\", ".", $key);
+
+            $isget = !is_null($value);
+            $pointer = &App::$configure;
+            $items = explode(".", $key);
+
+            $key = array_pop($items);
+            foreach($items as $item){
+                if(!array_key_exists($item, $pointer)) { #set when key does not exists
+                    if($isget) {
+                        return null;
+                    }
+                    $pointer[$item] = [];
+                }
+                if(!is_array($pointer[$item])) {
+                    return $pointer[$item];
+                }
+                $pointer = &$pointer[$item];
             }
-            if(is_null($value)){
-                if($name===false) {
-                    if(isset(App::$configure[$type])) {
-                        return App::$configure[$type];
-                    }
-                } else {
-                    if(isset(App::$configure[$type][$name])) {
-                        return App::$configure[$type][$name];
-                    }
-                }
+            if(!is_null($value)) {
+                $pointer[$key] = $value;
+            }
+
+            if(isset($pointer[$key])){
+                return $pointer[$key];
             } else {
-                if (!isset(App::$configure[$type])) {
-                    App::$configure[$type] = [];
-                }
-                if(($name===false)){
-                    App::$configure[$type] = $value;
-                } else {
-                    App::$configure[$type][$name] = $value;
-                }
+                return null;
             }
         }
-        
         
         function singleton($className, $renewal=false){
             if(is_array($className)) {
@@ -70,8 +78,8 @@
             $setup = function ($className, $cfg) {
                 $object = new $className();
                 if(method_exists($object, '__setup')) {
-                    $cfg_key = strtolower($className);
-                    $cfg = config($cfg_key);
+                    $cfg_key = $className;
+                    $cfg = configure($cfg_key);
                     if($cfg===false) {
                         throw new \Exception($className.' Need a Configure "'.$cfg_key.'"');
                     } else {
@@ -106,8 +114,8 @@
         function redirect($url, $status=302){
             return Nature\redirect($url, $status);
         }
-        function config($name, $value=null){
-            return Nature\config($name, $value);
+        function configure($name, $value=null){
+            return Nature\configure($name, $value);
         }
         function singleton($className, $renewal=false){
             return Nature\singleton($className, $renewal);

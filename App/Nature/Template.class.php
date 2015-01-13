@@ -20,6 +20,7 @@
                 $file = basename($_SERVER['SCRIPT_NAME'], '.php').'.html';
             }
             $file = $this->root.$dir.'/'.$file;
+
             if (realpath($file)) {
                 return realpath($file);
             } else {

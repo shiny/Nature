@@ -7,10 +7,7 @@
     require_once __DIR__.'/nature.function.php';
     class App {
         static $configure=[];
-        function __construct($app_dir=null) {
-            if (is_null($app_dir)) {
-                $app_dir = realpath(__DIR__.'/../');
-            }
+        function __construct($app_dir) {
             if(!defined('APP_DIR')) {
                 define('APP_DIR', $app_dir);
             }
@@ -47,13 +44,29 @@
                 $tpl->display('500.html');
             }
         }
-        function load_config(){
-            $cfg = require(__DIR__.'/configure.php');
-            $user_configure = [];
-            if(file_exists(APP_DIR.'/configure.php')) {
-                $user_configure = include(APP_DIR.'/configure.php');
+        function parse_config($configure, &$position){
+            if(!is_array($configure)) {
+                return null;
             }
-            self::$configure = array_replace_recursive($cfg, $user_configure);
+            foreach($configure as $key=>$value){
+                $pointer = &$position;
+                $keys = explode('.', $key);
+                $key = array_pop($keys);
+                foreach($keys as $item){
+                    $pointer = &$pointer[$item];
+                }
+                if(is_array($value)) {
+                    self::parse_config($value, $pointer[$key]);
+                } else {
+                    $pointer[$key] = $value;
+                }
+            }
+        }
+        function load_config(){
+            self::parse_config(require(__DIR__.'/configure.php'), self::$configure);
+            if(file_exists(APP_DIR.'/configure.php')) {
+                self::parse_config(include(APP_DIR.'/configure.php'), self::$configure);
+            }
             return self::$configure;
         }
         function rest($object=null){

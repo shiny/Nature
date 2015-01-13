@@ -4,16 +4,16 @@
  */
 return [
     'domain'=>$_SERVER['HTTP_HOST'],
-    'nature\\mysql'=>[
-        'dsn'=>getenv('MYSQL_DSN'),
-        'username'=>getenv('MYSQL_USER'),
-        'password'=>getenv('MYSQL_PASSWORD'),
-        'charset'=>'utf8mb4'
+    'Nature'=>[
+        'MySQL'=>[
+            'dsn'=>getenv('MYSQL_DSN'),
+            'username'=>getenv('MYSQL_USER'),
+            'password'=>getenv('MYSQL_PASSWORD'),
+            'charset'=>'utf8mb4'
+        ]
     ],
-    'nature\\template'=>[
+    'Nature.Template'=>[
         'root'=>APP_DIR.'/Template'
     ],
-    'nature\\curl'=>[
-        'timeout'=>10,
-    ]
+    'Nature.cURL.timeout'=>10,
 ];
