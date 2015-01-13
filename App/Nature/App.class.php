@@ -9,6 +9,7 @@
     class App {
         static $configure=[];
         function __construct($app_dir=null) {
+            $this->power();
             if (is_null($app_dir)) {
                 $app_dir = realpath(__DIR__.'/../');
             }
