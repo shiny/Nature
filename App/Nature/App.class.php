@@ -7,7 +7,10 @@
     require_once __DIR__.'/nature.function.php';
     class App {
         static $configure=[];
-        function __construct($app_dir) {
+        function __construct($app_dir=null) {
+            if (is_null($app_dir)) {
+                $app_dir = realpath(__DIR__.'/../');
+            }
             if(!defined('APP_DIR')) {
                 define('APP_DIR', $app_dir);
             }
