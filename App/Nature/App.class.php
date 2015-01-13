@@ -118,7 +118,7 @@
         }
         function power(){
 	        if (configure('x-powered-by')) {
-		       header('X-Powered-By: Nature '.VERSION.' ('.VERSION_NAME.')'); 
+		       header('X-Powered-By: Nature/'.VERSION.' ('.VERSION_NAME.')'); 
 	        }
         }
     }
