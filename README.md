@@ -1,12 +1,9 @@
 # PHP Nature
 for php5.4 and above.
-
 这是一次 PHP 语法糖的探索。
-原则
 
-- 浑然天成
-- 可维护第一，兼顾性能
-
+## 零、快速开始
+可以从 demo 项目直接开始练习。
 
 ## 一、文件存放的位置
 
@@ -177,8 +174,52 @@ Apache 下可以将所有配置放置于 Web 目录下的 `.htaccess`
 		}
 		
 
+### 3.5 配置文件格式
 
-### 3.5 模板
+-  App 目录下存放 configure.php，为用户自己的配置文件，具有最高的优先级。
+-  Nature 目录下的 configure.php 是默认配置，可以被 App 内的 configure.php 覆盖。
+
+举例：
+
+    <?php
+    return [
+    	'Nature'=>[
+    		'MySQL'=>[
+            'dsn'=>getenv('MYSQL_DSN'),
+            'username'=>getenv('MYSQL_USER'),
+            'password'=>getenv('MYSQL_PASSWORD'),
+    		]
+    	]
+    ];
+
+同时还支持用 dot(.) 来访问多级数组，举例
+
+	<?php
+    return [
+    	'Nature'=>[
+    		'MySQL'=>[
+            'dsn'=>getenv('MYSQL_DSN'),
+    		]
+    	],
+    	'Nature.MySQL.username'=>getenv('MYSQL_USER'),
+    	'Nature.MySQL.password'=>getenv('MYSQL_PASSWORD'),
+    ];
+	
+上面的代码效果是一样的，而且可以任意混用。
+
+通过 configure 函数可以读取或者设置配置：
+
+举例：读取 mysql用户名
+
+	<?php
+	echo configure('Nature.MySQL.username');
+
+设置 mysql 用户名
+
+	<?php
+	configure('Nature.MySQL.username', 'root');
+
+### 3.6 模板
 PHP 是最好的模板！ 我们选择 php 原生语法做模板。Controller 自带两个方法：assign 和 display
 
 如果没有指定 display 的模板文件，默认使用当前文件名，并把 .php 替换成 .html
@@ -214,10 +255,10 @@ PHP 是最好的模板！ 我们选择 php 原生语法做模板。Controller �
 #### *Tips:*
 [自 PHP5.4 起，即使 `short_open_tag = off`，`<?=` 也是可用的。](http://php.net/manual/zh/ini.core.php#ini.short-open-tag)
 
-### 3.6 加载数据库和模板
+### 3.7 加载数据库和模板
 
 -  约定：默认启用模板，因为 PHP 是一种模板语言。
--  需要数据库？为 Controller 设置一个 $db 属性，nature 会自动为你初始化数据库。
+-  需要数据库？为 Controller 设置一个 $db 属性，nature 会自动为你初始化数据库；不设置 $db 则不会初始化。
 
 示例：`index.php`
 
@@ -233,7 +274,8 @@ PHP 是最好的模板！ 我们选择 php 原生语法做模板。Controller �
 
 
 ### 3.7 易于使用的单例模式
-约定：使用 singleton 函数用单例模式初始化一个类
+
+#### 约定：使用 singleton 函数用单例模式初始化一个类
 
 -  singleton($className);
 -  singleton([$className1, $className1]);
@@ -246,3 +288,57 @@ PHP 是最好的模板！ 我们选择 php 原生语法做模板。Controller �
 
     <?php
     list($db, $tpl) = singleton(['db', 'tpl']);
+
+参数 $className 为类名，比如 `Nature\MySQL`。上面的 `tpl`、`db` 是一个快捷方式。
+
+#### 配置自动传入 singleton
+支持 singleton 的类举例：
+
+在配置文件中配置：
+
+	<?php
+	return [
+		'Myspace.myclass'=>[
+			//这里放 myclass 的配置文件
+		]
+	];
+
+`App/Myspace/myclass.class.php`
+
+	namespace Myspace;
+	class myclass{
+		function __setup($configure){
+			//这里的 $configure 等于上面 Myspace.myclass 的内容。
+		}
+	}
+
+
+
+## 四 Nature 类
+
+### 4.1 Autoload 机制
+一一言蔽之：
+new Namespace\Namespace\ClassName
+会在 App 目录下自动查找 `Namespace/Namespace/ClassName.class.php`
+
+举例：
+$cURL = new Nature\cURL
+会自动 `include 'Nature/cURL.class.php';`
+
+
+### 4.2 异常处理
+如果要抛出一个 404 或者 500， Nature 自带了一个 HTTPException，构造函数的第一个参数是 http 状态码。
+
+	new Nature\HTTPException($httpcode);
+
+例如抛出 404 异常：
+
+	new Nature\HTTPException(404);
+
+此外，如果默认模板目录有状态码同名的 html，会被自动display。
+
+
+## 五 谁在使用
+
+[Jarfire](http://www.jarfire.org)
+
