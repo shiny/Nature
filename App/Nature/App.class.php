@@ -1,6 +1,7 @@
 <?php
     namespace Nature;
-    
+    define('VERSION', '0.1.0');
+    define('VERSION_NAME', '西湖');
     /**
      * nature library 核心类
      */
@@ -11,6 +12,7 @@
             if (is_null($app_dir)) {
                 $app_dir = realpath(__DIR__.'/../');
             }
+            define('APP_DIR', $app_dir);
             set_include_path(get_include_path().':'.__DIR__);
             $this->load_config();
             spl_autoload_register([$this, 'autoloader']);
