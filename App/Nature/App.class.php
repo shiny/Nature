@@ -115,4 +115,10 @@
                 }
             }
         }
+        function power(){
+	        $power = configure('x-power-by');
+	        if ($power) {
+		       header('X-Powered-By: Natrue '.VERSION.' '.VERSION_NAME); 
+	        }
+        }
     }
