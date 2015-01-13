@@ -1,7 +1,7 @@
 <?php
     namespace Nature;
     define('VERSION', '0.1.0');
-    define('VERSION_NAME', '西湖');
+    define('VERSION_NAME', 'WestLake');
     /**
      * nature library 核心类
      */
@@ -9,7 +9,6 @@
     class App {
         static $configure=[];
         function __construct($app_dir=null) {
-            $this->power();
             if (is_null($app_dir)) {
                 $app_dir = realpath(__DIR__.'/../');
             }
@@ -18,6 +17,7 @@
             $this->load_config();
             spl_autoload_register([$this, 'autoloader']);
             set_exception_handler([$this, 'exception_handler']);
+            $this->power();
         }
         function autoloader($className) {
             $className = trim($className, "\\");
@@ -117,9 +117,8 @@
             }
         }
         function power(){
-	        $power = configure('x-power-by');
-	        if ($power) {
-		       header('X-Powered-By: Natrue '.VERSION.' '.VERSION_NAME); 
+	        if (configure('x-powered-by')) {
+		       header('X-Powered-By: Nature '.VERSION.' ('.VERSION_NAME.')'); 
 	        }
         }
     }
