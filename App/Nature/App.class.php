@@ -25,9 +25,9 @@
                     .DIRECTORY_SEPARATOR
                     .str_replace("\\", DIRECTORY_SEPARATOR, $className)
                     .'.class.php';
-            $natureFile = APP_DIR.DIRECTORY_SEPARATOR.
-                            __NAMESPACE__.$className.'.class.php';
-            $files = [$file, $natureFile];
+            $globalFile = APP_DIR.DIRECTORY_SEPARATOR.'Global'
+                            .DIRECTORY_SEPARATOR.$className.'.class.php';
+            $files = [$file, $globalFile];
             foreach($files as $file){
                 if(file_exists($file)){
                     require($file);
@@ -43,6 +43,7 @@
             if(!is_a($exception, 'Nature\HTTPException')) {
                 http_response_code(500);
                 $tpl = singleton('tpl');
+                $tpl->assign('exception', $exception);
                 $tpl->assign('msg', $exception->getMessage());
                 $tpl->display('500.html');
             }
