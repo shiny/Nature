@@ -1,0 +1,7 @@
+{
+    "name": "nature/nature",
+    "description": "Simply a PHP Library",
+    "require": {
+        "php": ">=5.4.0"
+    }
+}
